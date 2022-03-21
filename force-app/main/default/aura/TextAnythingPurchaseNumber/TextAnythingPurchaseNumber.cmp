@@ -12,5 +12,6 @@
         max-height:unset !important;
         }
     </aura:html>
+    
     <c:textAnythingBuyPhoneNumber onclose="{!c.closeLwcModal}" />
 </aura:component>
