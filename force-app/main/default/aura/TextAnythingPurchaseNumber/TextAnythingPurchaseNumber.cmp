@@ -1,6 +1,6 @@
 <aura:component implements="lightning:actionOverride,force:hasRecordId,force:lightningQuickAction" access="global" >
     <aura:html tag="style">
-        .cuf-content {
+        .cuf-content { 
         padding: 0 0rem !important;
         }
         .slds-p-around--medium {
@@ -12,5 +12,6 @@
         max-height:unset !important;
         }
     </aura:html>
+    
     <c:textAnythingBuyPhoneNumber onclose="{!c.closeLwcModal}" />
 </aura:component>
