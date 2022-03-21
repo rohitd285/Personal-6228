@@ -4,5 +4,5 @@
     <lightning:path aura:id="path" recordId="{!v.recordId}"
                     variant="{!v.variant}"
                     hideUpdateButton="{!v.hideUpdateButton}"
-                    onselect="{!c.handleSelect}"/>121
+                    onselect="{!c.handleSelect}"/>121456
 </aura:component>
