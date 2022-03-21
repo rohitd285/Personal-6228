@@ -1,0 +1,208 @@
+<template>
+	<lightning-card title="">
+		<div class="divFontFamily slds-p-horizontal_x-large">
+			<template if:true={strErrorMsg.length}>
+				<div class="error uiMessage" role="alert">
+					<div class="slds-grid slds-wrap">
+						<div class="slds-col slds-size_11-of-12 slds-align_absolute-center">
+							<lightning-icon icon-name="utility:warning" alternative-text="Warning!" title="Warning"
+								variant="error" size="small"></lightning-icon>
+							<div class="slds-m-left_x-small textAnythingErrorMessageStyle">
+								<lightning-formatted-rich-text value={strErrorMsg}></lightning-formatted-rich-text>
+							</div>
+						</div>
+						<div class="slds-col slds-size_1-of-12">
+							<div class="slds-m-left_x-small">
+								<lightning-icon icon-name="utility:close" alternative-text="Close!" title="Close"
+									size="small" onclick={onClearMessage}></lightning-icon>
+							</div>
+						</div>
+					</div>
+				</div>
+			</template>
+			<template if:true={strSuccess.length}>
+				<div class="confirm uiMessage" role="alert" style="font-family: Arial;font-size: 16px;">
+					<div class="slds-grid slds-wrap">
+						<div class="slds-col slds-size_11-of-12 slds-align_absolute-center">
+							<lightning-icon icon-name="utility:success" alternative-text="Success!" title="Success"
+								variant="success" size="small"></lightning-icon>
+							<div class="slds-m-left_x-small textAnythingSuccessMessageStyle">
+								<lightning-formatted-rich-text value={strSuccess}></lightning-formatted-rich-text>
+							</div>
+						</div>
+						<div class="slds-col slds-size_1-of-12">
+							<div class="slds-m-left_x-small">
+								<lightning-icon icon-name="utility:close" alternative-text="Close!" title="Close"
+									size="small" onclick={onClearMessage}></lightning-icon>
+							</div>
+						</div>
+					</div>
+				</div>
+			</template>
+
+			<template if:true={showStep5}>
+					<template if:true={showwizard}>
+						<div class="slds-text-align_right">
+							<lightning-button variant="base" label="Skip" title="Skip" onclick={handleSkip}
+								class="slds-p-right_small sldsBareButton"></lightning-button>
+						</div>
+					</template>
+					<b class="textAnythingHeader">Receiving Messages</b>
+					<p class="slds-p-top_large textAnythingSetupScreenText">To receive messages you must connect your
+						Salesforce account to Text Anything with an integration user. For small businesses it is ok to
+						use your account. For larger organizations we recommend you use a dedicated integration user.
+						Click on your Profile Icon in the top right and then "Settings".
+					</p>
+					<ul class="slds-list_dotted slds-m-top_small textAnythingSetupScreenText">
+						<li>User name and password is available under "Advanced User Details"</li>
+						<li>Security Token will be generated from the "Reset My Security Token" </li>
+					</ul>
+
+					<div class="slds-grid slds-wrap slds-p-top_medium ">
+						<div class="slds-col slds-size_12-of-12">
+							<div class="slds-grid slds-wrap ">
+								<div class="slds-col slds-size_5-of-12">
+									<lightning-input type="text" name="userName" label="Username" value={userName}
+										onchange={onChangeHandler} disabled={disable} required class="allValid">
+									</lightning-input>
+								</div>
+								<div class="slds-col slds-size_1-of-12 slds-m-top--large" onmouseover={hoverOpenPop1}
+									onmouseout={hoverClosePop1}>
+									<label class="slds-form-element__label">&nbsp;</label>
+									<lightning-button-icon icon-name="action:info" onmouseover={hoverOpenPop1}
+										onmouseout={hoverClosePop1} variant="bare">
+									</lightning-button-icon>
+								</div>
+								<div class="slds-col slds-size_6-of-12">
+									<div class="slds-is-relative slds-col slds-float_left">
+										<section if:true={displayhelptext1}
+											class="slds-popover slds-nubbin_left-top slds-m-top--small" role="dialog">
+											<div class="slds-popover__body">
+												<img src={helpTextUserCredentials} width="150" height="120">
+											</div>
+										</section>
+										<section if:true={displayhelptext2}
+											class="slds-popover slds-nubbin_left slds-m-top--small" role="dialog">
+											<div class="slds-popover__body">
+												<img src={helpTextUserCredentials} width="150" height="120">
+											</div>
+										</section>
+									</div>
+									<div if:false={displayhelptext1} class="slds-m-top--large">
+										<a class="anchorStyle" name="AdvancedUserDetailsURL"
+											onclick={handleClickHelpURL}>Take Me There</a>
+									</div>
+
+								</div>
+
+
+
+								<div class="slds-col slds-size_5-of-12">
+									<lightning-input type="password" name="password" label="Password" value={password}
+										onchange={onChangeHandler} disabled={disable} required class="allValid">
+									</lightning-input>
+								</div>
+								<div class="slds-col slds-size_7-of-12 slds-m-top--large">
+
+								</div>
+
+
+								<div class="slds-col slds-size_5-of-12">
+									<lightning-input type="password" name="token" label="Token" value={token}
+										onchange={onChangeHandler} disabled={disable} required class="allValid">
+									</lightning-input>
+								</div>
+								<div class="slds-col slds-size_1-of-12 slds-m-top--large" onmouseover={hoverOpenPop2}
+									onmouseout={hoverClosePop2}>
+									<label class="slds-form-element__label">&nbsp;</label>
+									<lightning-button-icon icon-name="action:info" onmouseover={hoverOpenPop2}
+										onmouseout={hoverClosePop2} variant="bare">
+									</lightning-button-icon>
+								</div>
+								<div class="slds-col slds-size_6-of-12 slds-m-top--large">
+									<div if:false={displayhelptext2}>
+										<a class="anchorStyle" name="ResetTokenURL" onclick={handleClickHelpURL}>Take Me
+											There</a>
+									</div>
+
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+					<template if:true={showwizard}>
+						<div class="slds-p-top_medium">
+							<lightning-button label="Next" title="Next" onclick={handleChildTwoNext}
+								class="slds-m-left_x-small TACustomButton" variant="brand"></lightning-button>
+						</div>
+					</template>
+					<template if:false={showwizard}>
+						<template if:true={disable}>
+							<div class="slds-p-top_small">
+								<lightning-button label="Edit" title="Edit" variant="brand" onclick={handleChildTwoEdit}
+									class="TACustomButton"></lightning-button>
+							</div>
+						</template>
+						<template if:false={disable}>
+							<div class="slds-p-top_medium">
+								<lightning-button label="Save" title="Save" variant="brand" onclick={handleChildTwoSave}
+									class="slds-m-left_x-small TACustomButton"></lightning-button>
+								&nbsp;<lightning-button label="Cancel" title="Cancel" onclick={handleChildTwoCancel}
+									class="slds-m-left_x-small TACustomButton" variant="brand-outline">
+								</lightning-button>
+							</div>
+						</template>
+					</template>
+				<template if:true={showWarning}>
+					<section role="alertdialog" tabindex="0" aria-labelledby="prompt-heading-id"
+						aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal_prompt"
+						aria-modal="true">
+						<div class="slds-modal__container" style="font-family: Arial;">
+							<header class="slds-modal__header slds-theme_error">
+								<h2 class="slds-text-heading_medium" id="prompt-heading-id">Skip Account Connectivity
+								</h2>
+							</header>
+							<div class="slds-modal__content slds-p-around_medium" id="prompt-message-wrapper">
+								<p class="slds-p-top_medium textAnythingSetupScreenText">If you skip this step you will
+									not be able to receive messages or sent message status updates. However you can
+									configure it later in the admin panel.</p>
+								<p class="slds-p-top_medium textAnythingSetupScreenText">Do you want to continue ?</p>
+							</div>
+							<footer class="slds-modal__footer slds-theme_default">
+								<lightning-button label="Yes" title="Yes" onclick={handleSkipYes}
+									class="slds-m-right_medium TACustomButton" variant="brand"></lightning-button>
+								<lightning-button label="No" title="No" onclick={handleSkipNo} variant="brand-outline"
+									class="TACustomButton"></lightning-button>
+							</footer>
+						</div>
+					</section>
+					<div class="slds-backdrop slds-backdrop_open"></div>
+				</template>
+			</template>
+
+			<template if:true={showStep6}>
+				<div>
+					<div if:true={isDisable}>
+						<lightning-icon icon-name="utility:success" alternative-text="Success!" title="Success"
+							variant="success" size="small"></lightning-icon>
+						<p class="slds-p-vertical_small textAnythingHeader" style="display: inline;">&nbsp; Account
+							Setup Connected Successfully</p>
+					</div>
+					<p if:true={isDisable} class="slds-p-top_large textAnythingSetupScreenText">Your account is now
+						connected! You can now send a test text message or you may close the wizard. </p>
+					<p class="slds-p-top_medium textAnythingSetupScreenText">Note: This allows you to send
+						<template if:true={isDisable}>
+							&nbsp;and receive
+						</template>
+						&nbsp;text messages using your trial number. You may purchase additional numbers, assign numbers
+						to users, remove numbers, set your archive policy, and more in the Admin Panel.</p>
+					<div class="slds-p-top_medium">
+						<lightning-button label="Next" title="Next" onclick={handleIntegrationUserNext}
+							class="slds-m-left_x-small TACustomButton" variant="brand"></lightning-button>
+					</div>
+				</div>
+			</template>
+		</div>
+	</lightning-card>
+</template>

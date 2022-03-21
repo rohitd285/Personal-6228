@@ -1,0 +1,123 @@
+<template>
+    <lightning-card title="">
+        <div class="slds-p-horizontal_x-large">
+			<template if:true={strErrorMsg.length}>
+				<div class="error uiMessage" role="alert">
+					<div class="slds-grid slds-wrap">
+						<div class="slds-col slds-size_11-of-12 slds-align_absolute-center" >
+							<lightning-icon icon-name="utility:warning" alternative-text="Warning!" title="Warning" variant="error" size="small"></lightning-icon>
+							<div class="slds-m-left_x-small textAnythingErrorMessageStyle" ><lightning-formatted-rich-text value={strErrorMsg}></lightning-formatted-rich-text></div>
+						</div>
+						<div class="slds-col slds-size_1-of-12" >
+							<div class="slds-m-left_x-small">
+							<lightning-icon icon-name="utility:close" alternative-text="Close!" title="Close" size="small" onclick={onClearMessage}></lightning-icon>
+							</div>
+						</div>
+					</div>
+				</div>
+			</template>
+			<template if:true={strSuccess.length}>
+				<div class="confirm uiMessage" role="alert" style="font-family: Arial;font-size: 16px;">
+					<div class="slds-grid slds-wrap">
+						<div class="slds-col slds-size_11-of-12 slds-align_absolute-center" >
+							<lightning-icon icon-name="utility:success" alternative-text="Success!" title="Success" variant="success" size="small"></lightning-icon>
+							<div class="slds-m-left_x-small textAnythingSuccessMessageStyle" ><lightning-formatted-rich-text value={strSuccess}></lightning-formatted-rich-text></div>
+						</div>
+						<div class="slds-col slds-size_1-of-12" >
+							<div class="slds-m-left_x-small">
+							<lightning-icon icon-name="utility:close" alternative-text="Close!" title="Close" size="small" onclick={onClearMessage}></lightning-icon>
+							</div>
+						</div>
+					</div>
+				</div>
+			</template>
+			
+			<b class="textAnythingHeader">Text Message Ownership</b> 
+			<p class="slds-p-top_large textAnythingSetupScreenText">When new text messages are sent, who would you like the default owner to be?  Generally we recommend the record owner be the user who creates the message, but you can also specify the owner of the record (i.e., if you text from an account, the message will be owned by the account owner).</p>
+			<div class="slds-p-top_medium">
+				<lightning-radio-group name="radioGroupMO" 
+						  label=" "
+						  options={options}
+						  value={value}
+						  type="radio"
+						  onchange={handleChangeMO}
+						  disabled={disable}></lightning-radio-group>
+			</div>
+			<div class="slds-p-top_medium slds-grid slds-wrap">
+				<div class="slds-col slds-size_6-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12">     
+					<template if:true={showUserSearch}>
+						<div class="slds-combobox_container">
+							<div class="slds-combobox slds-dropdown-trigger" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+								<lightning-input type="search" onchange={handleKeyChange}  class="slds-m-bottom_small" label=" " placeholder="Search User" aria-autocomplete="none" value={selectedUserName} disabled={disable}></lightning-input>
+								<template if:true={showList}>
+									<ul class="slds-listbox slds-listbox_vertical" role="presentation">
+										<template if:true={users}>
+											<template for:each={users} for:item="user">
+												<li role="presentation" class="slds-listbox__item" key={user.Id} data-id ={user.Id} data-name ={user.Name}  onclick={handleLISelect}> 
+													<div  class="slds-media slds-listbox__option slds-listbox__option_entity" role="option">
+													<span class="slds-media__figure slds-listbox__option-icon">
+														<lightning-icon icon-name="standard:user" alternative-text="user" title="User" size="small"></lightning-icon>
+													</span>
+													<span class="slds-media__body">
+														<span class="slds-listbox__option-text slds-listbox__option-text_entity">{user.Name}</span>
+													</span>
+													</div>
+												</li>
+											</template>
+										</template>
+										<template if:false={users}>
+											<li role="presentation" class="slds-listbox__item" > 
+												<div  class="slds-media slds-listbox__option slds-listbox__option_entity" role="option">
+												<span class="slds-media__body">
+													<span class="slds-listbox__option-text slds-listbox__option-text_entity">No User data available.</span>
+												</span>
+												</div>
+											</li>
+										</template>
+									</ul>
+								</template>
+							</div>
+						</div>
+					</template>
+				</div>
+			</div>
+			<template if:true={showwizard}>
+				<div class="slds-p-top_medium">
+					<lightning-button label="Next" title="Next" onclick={handleMessageOwnershipNext} class="slds-m-left_x-small TACustomButton" variant="brand"></lightning-button>
+				</div>
+			</template>
+			<template if:false={showwizard}>
+				<hr></hr>
+				<p class="textAnythingSetupScreenText">If a text is received and there is no related record: </p>
+				<lightning-radio-group name="radioGroupRRMO"
+						label=" "
+						options={optionsrr}
+						value={valuerr}
+						type="radio"
+						onchange={handleChangeRRMO} 
+						disabled={disable}></lightning-radio-group>
+				
+				
+				<div class="slds-p-top_x-large">
+					<template if:true={disable}>
+						<lightning-button label="Edit" title="Edit" variant="brand" onclick={handleMessageOwnershipEdit} class="TACustomButton" ></lightning-button>
+					</template>
+					<template if:false={disable}>
+						<lightning-button label="Save" title="Save" variant="brand" onclick={handleMessageOwnershipSave} class="slds-m-left_x-small TACustomButton" ></lightning-button>
+						<lightning-button label="Cancel" title="Cancel" onclick={handleMessageOwnershipCancel} class="slds-m-left_x-small TACustomButton"  variant="brand-outline"></lightning-button>
+					</template>
+				</div>
+			</template>
+			<template if:false={loaded}>
+				<div style="height:6rem">
+					<div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+						<span class="slds-assistive-text">Loading</span>
+						<div class="slds-spinner__dot-a"></div>
+						<div class="slds-spinner__dot-b"></div>
+					</div>
+				</div>
+				<div class="slds-backdrop slds-backdrop_open" style="background: transparent;"></div>
+			</template>
+        </div>
+    </lightning-card>  
+</template>

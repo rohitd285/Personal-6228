@@ -1,0 +1,37 @@
+<template>  
+    <template if:true={showWizard}> 
+        <lightning-card>
+			<div class="slds-p-horizontal_x-large">
+				<lightning-progress-indicator current-step={showStep} type="base" variant="shaded">
+					<lightning-progress-step label="Step 1" value="1"></lightning-progress-step>
+					<lightning-progress-step label="Step 2" value="2"></lightning-progress-step>
+					<lightning-progress-step label="Step 3" value="3"></lightning-progress-step>
+					<lightning-progress-step label="Step 4" value="4"></lightning-progress-step>
+					<lightning-progress-step label="Step 5" value="5"></lightning-progress-step>
+					<lightning-progress-step label="Step 6" value="6"></lightning-progress-step>
+					<lightning-progress-step label="Step 7" value="7"></lightning-progress-step>
+				</lightning-progress-indicator>
+			</div>
+        
+			<template if:true={showStep1And2}>
+				<c-text-anything-welcome-screen onwsnotification={handleWelcomeScreenNext} oncreatesubaccount={handleCreateAWSSubAccount} step={currentsStep} ></c-text-anything-welcome-screen>
+			</template>
+
+			<template if:true={showStep3}>
+				<c-text-anything-message-ownership onmonotification={handleMessageOwnershipNext} showwizard=true identifylocation="wizard"></c-text-anything-message-ownership>
+			</template>
+
+			<template if:true={showStep4}>
+				<c-text-anything-number-configuration onncnotification={handleNumberConfigurationNext} identifylocation="wizard" ></c-text-anything-number-configuration>
+			</template>
+
+			<template if:true={showStep5And6}>
+				<c-text-anything-integration-user oniunotification={handleIntegrationUserNext} oncwiunotification={handleCloseWizard} step={currentsStep} showwizard=true identifylocation="wizard" oncrednext={handleIntegrationUserCredNext}></c-text-anything-integration-user>
+			</template>
+
+			<template if:true={showStep7}>
+				<c-text-anything-send-demo-sms oncwnotification={handleCloseWizard}></c-text-anything-send-demo-sms>
+			</template>
+		</lightning-card>
+    </template>
+</template>

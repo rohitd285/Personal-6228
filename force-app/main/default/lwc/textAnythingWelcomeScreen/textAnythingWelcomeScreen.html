@@ -1,0 +1,66 @@
+<template>
+    <lightning-card title="">	
+		<template if:true={strErrorMsg.length}>
+			<div class="slds-p-horizontal_x-large fontFamilyStyle" style="font-size: 16px;">
+				<div class="error uiMessage" role="alert">
+					<div class="slds-grid slds-wrap">
+						<div class="slds-col slds-size_11-of-12 slds-align_absolute-center" >
+							<lightning-icon icon-name="utility:warning" alternative-text="Warning!" title="Warning" variant="error" size="small"></lightning-icon>
+							<div class="slds-m-left_x-small textAnythingErrorMessageStyle" ><lightning-formatted-rich-text value={strErrorMsg}></lightning-formatted-rich-text></div>
+						</div>
+						<div class="slds-col slds-size_1-of-12" >
+							<div class="slds-m-left_x-small">
+							<lightning-icon icon-name="utility:close" alternative-text="Close!" title="Close" size="small" onclick={onClearMessage}></lightning-icon>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</template>
+		<template if:true={showStep1}> 
+			<div class="slds-p-horizontal_x-large fontFamilyStyle">
+				<b class="slds-p-vertical_medium textAnythingHeader">Welcome to the Text Anything setup wizard!</b>
+				<p class="slds-p-top_large textAnythingSetupScreenText">This wizard will get you texting in minutes.  It covers the minimum settings needed to send and receive texts.  There are optional settings you may wish to configure later in the Text Anything admin panel.</p>
+				<p class="slds-p-top_medium textAnythingSetupScreenText">All settings can be changed later.  Let’s get started.</p>
+				
+				<div class="slds-checkbox slds-p-top_medium">
+					<input type="checkbox" name="options" id="idTOS" value={tosValue} checked={tosValue} onchange={handleWSCBChange} />
+					<label class="slds-checkbox__label" for="idTOS">
+						<span class="slds-checkbox_faux"></span>
+						<span class="slds-form-element__label"> I agree to the <a href={label} target="_blank" class="anchorStyle">Terms of Service</a></span>
+					</label>
+				</div>
+				<div class="slds-p-top_medium">
+					<lightning-button label="Start" title="Start" onclick={handleClickOneA}  disabled={tosIsFalse} variant="brand" class="TACustomButton"></lightning-button>
+				</div>
+            </div>
+		</template>
+		<template if:true={showSpinner}>	
+			<div class="slds-p-horizontal_x-large fontFamilyStyle">
+                <p class="slds-p-vertical_medium textAnythingSetupScreenText">Please wait, we are securing your trial phone number and setting up your Text Anything account.</p> 
+                <br/><br/>
+                <div if:false={strErrorMsg.length} class="slds-spinner_container slds-is-relative">
+                    <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand ">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+            </div><br/>
+		</template>
+		<template if:true={showStep2}> 
+			<div class="slds-p-horizontal_x-large fontFamilyStyle">
+                <p class="slds-p-vertical_medium textAnythingWelcomeSubHeader">Here is your free number for your 30 day trial:</p>
+                <div><p class="textAnythingTrailNumber">{freeNumber}</p></div><br/>
+                <p class="textAnythingSetupScreenText">
+					{trialMessage}
+					This number will be discarded when your trial ends if you do not become a customer.
+				</p>
+				
+				<div class="slds-p-top_medium">
+					<lightning-button label="Next" title="Next" onclick={handleWelcomeScreenNext} variant="brand" class="TACustomButton"></lightning-button>
+				</div>
+            </div>
+		</template>
+	</lightning-card>
+</template>

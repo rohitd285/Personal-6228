@@ -1,0 +1,176 @@
+.myScrollClass{
+    overflow-y: auto;
+    height:295px;
+    scroll-behavior: smooth;
+    background:white;
+	display: flex;
+	flex-direction: column-reverse;
+}
+
+.myNonScrollClass{
+    height:295px;
+    scroll-behavior: smooth;
+    background:white;
+	display: flex;
+	flex-direction: column-reverse;
+}
+
+.outboundStyle{
+	max-width: 14rem;
+	background-color: #4E80C5;
+	border-radius: 12px 12px 0 12px;
+}
+
+.outboundTextStyle{
+	position: static;
+	width: 146px;
+	height: 32px;
+	left: calc(50% - 146px/2);
+	top: 8px;
+
+	font-family: Arial;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 16px;
+	text-align: right;
+
+	/* White */
+
+	color: #FFFFFF;
+
+
+	/* Inside Auto Layout */
+
+	flex: none;
+	order: 0;
+	align-self: stretch;
+	flex-grow: 0;
+	margin: 8px 0px;
+}
+
+.inboundStyle{
+	background: #EDF3FA;
+	border-radius: 12px 12px 12px 0;
+	max-width: 14rem;
+}
+
+.chatHeaderMarginStyle{
+	padding-left:14px;
+	padding-top:14px;
+	padding-bottom:14px;
+}
+
+.chatHeaderInitialsMarginStyle{
+	padding-right:14px;
+}
+
+.chatMsgMarginStyle{
+	padding:14px;
+}
+
+.inboundTextStyle{
+	position: static;
+	width: 187px;
+	height: 48px;
+	left: 0px;
+	top: 0px;
+
+	font-family: Arial;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 16px;
+
+	/* Gray 2 */
+
+	color: #4F4F4F;
+
+
+	/* Inside Auto Layout */
+
+	flex: none;
+	order: 0;
+	align-self: stretch;
+	flex-grow: 0;
+	margin: 8px 0px;
+}
+
+.chatHeaderStyle{
+	background: #FCFBFB;
+	border: 1px solid #F2F2F2;
+	box-sizing: border-box;
+}
+
+.recordNameStyle{
+	font-family: Arial;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 18px;
+	/* identical to box height */
+
+	display: flex;
+	align-items: center;
+
+	/* Gray 3 */
+
+	color: #828282;
+}
+
+
+.rightAvtar{
+	margin-left: var(--lwc-spacingXSmall,0.5rem);
+	margin-right: 0px;
+}
+
+.initialsTextStyle{
+	left: 9.38%;
+	right: 9.38%;
+	top: 25%;
+	bottom: 25%;
+
+	font-family: Arial;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 16px;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	
+	color: #4F4F4F;
+}
+
+.smallDetailsStyle{
+	position: static;
+	width: 223px;
+	height: 11px;
+	left: calc(50% - 223px/2);
+	top: 0px;
+
+	font-family: Arial;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 9px;
+	line-height: 11px;
+	/* identical to box height */
+
+	text-align: right;
+
+	/* Inside Auto Layout */
+
+	flex: none;
+	order: 0;
+	align-self: stretch;
+	flex-grow: 0;
+	margin: 12px 0px;
+}
+.chat_btn {
+   position: relative;
+   width: 40px;
+   }
+.rightAvtar[c-textAnythingChatPanel_textAnythingChatPanel] {
+   bottom: 16px;
+   position: absolute;
+}

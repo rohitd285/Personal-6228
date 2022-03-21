@@ -1,0 +1,25 @@
+<template>
+	<div style="background-color:#FFFFFF;">
+		<div class="slds-grid slds-wrap">
+			<div
+				class="slds-col slds-size_6-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-p-around_small">
+					<c-text-anything-message-ownership></c-text-anything-message-ownership>
+			</div>
+			<div
+				class="slds-col slds-size_6-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-p-around_small">
+					<c-text-anything-integration-user step='5'></c-text-anything-integration-user>
+			</div>
+		</div>
+		<div class="slds-grid slds-wrap">
+			<div
+				class="slds-col slds-size_6-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-p-around_small">
+				<c-text-anything-text-manager-config></c-text-anything-text-manager-config>
+			</div>
+			<div
+				class="slds-col slds-size_6-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-p-around_small ">
+				<c-text-anything-text-message-opt-in onoptincheck={handleShowOptInKeywords}>
+					</c-text-anything-text-message-opt-in>
+			</div>
+		</div>
+	</div>
+</template>

@@ -1,0 +1,78 @@
+.initialsTextStyle{
+	left: 9.38%;
+	right: 9.38%;
+	top: 25%;
+	bottom: 25%;
+
+	font-family: Arial;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 16px;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	
+	color: #4F4F4F;
+}
+
+.personNameStyle{
+	position: static;
+	width: 85px;
+	height: 16px;
+	left: 0px;
+	top: 0px;
+
+	font-family: Arial;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 16px;
+	display: flex;
+	align-items: center;
+
+	/* Gray 4 */
+
+	color: #5D5C5C;
+}
+
+.subTextStyle{
+	font-family: Arial;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 14px;
+	/* identical to box height */
+
+	display: flex;
+	align-items: center;
+
+	/* Gray 2 */
+
+	color: #4F4F4F;
+}
+
+.unreadCheckboxLabelStyle{
+	font-family: Arial;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 14px;
+	/* identical to box height */
+
+	display: flex;
+	align-items: center;
+	text-align: right;
+
+	/* Gray 2 */
+
+	color: #4F4F4F;
+
+
+	/* Inside Auto Layout */
+
+	flex: none;
+	order: 1;
+	flex-grow: 0;
+	margin: 0px 2px;
+}

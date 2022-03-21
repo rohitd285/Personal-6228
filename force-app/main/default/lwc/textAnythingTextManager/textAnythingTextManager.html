@@ -1,0 +1,117 @@
+<template>
+	<template if:true={loaded}>
+		<template if:false={diplayChatPanel}>
+			<div>
+				<lightning-layout>
+					<lightning-layout-item padding="around-small" size="12" class="slds-text-align--right">
+						<lightning-input checked={unReadOnly} value={unReadOnly} type="checkbox" label="Unread"
+							name="unread" onchange={handleChangeUnread} class="unreadCheckboxLabelStyle">
+						</lightning-input>
+					</lightning-layout-item>
+
+				</lightning-layout>
+
+				<template if:true={strErrorMsg}>
+					<div class="error uiMessage" role="alert">
+						<div class="slds-grid slds-wrap">
+							<div class="slds-col slds-size_1-of-12 slds-align_absolute-center">
+								<lightning-icon icon-name="utility:warning" alternative-text="Warning!" title="Warning"
+									variant="error" size="small"></lightning-icon>
+							</div>
+							<div class="slds-col slds-size_10-of-12">
+								<div class="slds-m-around_x-small">
+									<lightning-formatted-rich-text value={strErrorMsg}></lightning-formatted-rich-text>
+								</div>
+							</div>
+							<div class="slds-col slds-size_1-of-12 slds-align_absolute-center">
+								<lightning-icon icon-name="utility:close" alternative-text="Close!" title="Close"
+									size="small" onclick={onClearMessage}></lightning-icon>
+							</div>
+						</div>
+					</div>
+				</template>
+
+				<div if:true={lstMessage}>
+					<template for:each={lstMessage} for:item="a">
+						<a key={a.recordId} data-id={a.recordId} onclick={handleClickTextMessage}
+							style="text-decoration: none;color: inherit;outline: 0;cursor: pointer;">
+							<template if:true={a.isRead}>
+								<lightning-layout data-id={a.recordId} class="slds-border--top slds-border--bottom"
+									multiple-rows=true
+									style="width:99%;height: 60px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap; background-color:#FAFCFF;">
+									<lightning-layout-item data-id={a.recordId} size="2"
+										class="slds-align-middle slds-text-align--center">
+										<span data-id={a.recordId} aria-hidden="true"
+											class="slds-avatar slds-avatar_circle slds-chat-avatar" style="border: 2px solid #FFFFFF;">
+											<abbr data-id={a.recordId}
+												class="slds-avatar__initials slds-avatar__initials_inverse initialsTextStyle" style="background: #E5F6FD;">{a.senderNameSmall}</abbr>
+										</span>
+									</lightning-layout-item>
+									<lightning-layout-item data-id={a.recordId} size="10" class="slds-align-middle">
+										<lightning-layout data-id={a.recordId} multiple-rows=true>
+											<lightning-layout-item data-id={a.recordId} size="12">
+												<span data-id={a.recordId} class="personNameStyle" style="color: #5D5C5C">{a.senderName}</span>
+											</lightning-layout-item>
+											<lightning-layout-item data-id={a.recordId} size="12">
+												<div if:true={a.isRead} data-id={a.recordId}>
+													<span data-id={a.recordId} class="subTextStyle">{a.lastText}</span>
+												</div>
+
+												<div if:false={a.isRead} data-id={a.recordId}>
+													<span data-id={a.recordId} style="font-weight:bold;" class="subTextStyle">{a.lastText}</span>
+												</div>
+											</lightning-layout-item>
+										</lightning-layout>
+									</lightning-layout-item>
+								</lightning-layout>
+							</template>
+							<template if:false={a.isRead}>
+								<lightning-layout data-id={a.recordId} class="slds-border--top slds-border--bottom"
+									multiple-rows=true
+									style="width:99%;height: 60px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+									<lightning-layout-item data-id={a.recordId} size="2"
+										class="slds-align-middle slds-text-align--center">
+										<span data-id={a.recordId} aria-hidden="true"
+											class="slds-avatar slds-avatar_circle slds-chat-avatar" style="border: 2px solid #FFFFFF;">
+											<abbr data-id={a.recordId}
+												class="slds-avatar__initials slds-avatar__initials_inverse initialsTextStyle" style="background: #E5F6FD;">{a.senderNameSmall}</abbr>
+										</span>
+									</lightning-layout-item>
+									<lightning-layout-item data-id={a.recordId} size="10" class="slds-align-middle">
+										<lightning-layout data-id={a.recordId} multiple-rows=true>
+											<lightning-layout-item data-id={a.recordId} size="12">
+												<span data-id={a.recordId} class="personNameStyle" style="color: #2C2C2C">{a.senderName}</span>
+											</lightning-layout-item>
+											<lightning-layout-item data-id={a.recordId} size="12">
+												<div if:true={a.isRead} data-id={a.recordId}>
+													<span data-id={a.recordId} class="subTextStyle">{a.lastText}</span>
+												</div>
+
+												<div if:false={a.isRead} data-id={a.recordId}>
+													<span data-id={a.recordId} style="font-weight:bold;" class="subTextStyle">{a.lastText}</span>
+												</div>
+											</lightning-layout-item>
+										</lightning-layout>
+									</lightning-layout-item>
+								</lightning-layout>
+							</template>
+
+
+						</a>
+					</template>
+				</div>
+			</div>
+		</template>
+
+		<template if:true={diplayChatPanel}>
+			<div style="min-height: 75%;">
+				<c-text-anything-chat-panel onclickbackbutton={handleClickBack} display-back-btn="true"
+					un-read-only={unReadOnly} record-id={recordId} object-api-name={objectApiName}>
+				</c-text-anything-chat-panel>
+			</div>
+		</template>
+	</template>
+	<template if:false={loaded}>
+		<lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+	</template>
+</template>

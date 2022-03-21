@@ -1,0 +1,86 @@
+<template>
+	<template if:true={loaded}>
+		<template if:true={strErrorMsg}>
+			<div class="error uiMessage" role="alert">
+				<div class="slds-grid slds-wrap">
+					<div class="slds-col slds-size_11-of-12 slds-align_absolute-center">
+						<lightning-icon icon-name="utility:warning" alternative-text="Warning!" title="Warning"
+							variant="error" size="small"></lightning-icon>
+						<div class="slds-m-left_x-small textAnythingErrorMessageStyle">
+							<lightning-formatted-rich-text value={strErrorMsg}></lightning-formatted-rich-text>
+						</div>
+					</div>
+					<div class="slds-col slds-size_1-of-12">
+						<div class="slds-m-left_x-small">
+							<lightning-icon icon-name="utility:close" alternative-text="Close!" title="Close"
+								size="small" onclick={onClearMessage}></lightning-icon>
+						</div>
+					</div>
+				</div>
+			</div>
+		</template>
+		<template if:true={strSuccess}>
+			<div class="confirm uiMessage" role="alert" style="font-family: Arial;font-size: 16px;">
+				<div class="slds-grid slds-wrap">
+					<div class="slds-col slds-size_11-of-12 slds-align_absolute-center">
+						<lightning-icon icon-name="utility:success" alternative-text="Success!" title="Success"
+							variant="success" size="small"></lightning-icon>
+						<div class="slds-m-left_x-small textAnythingSuccessMessageStyle">
+							<lightning-formatted-rich-text value={strSuccess}></lightning-formatted-rich-text>
+						</div>
+					</div>
+					<div class="slds-col slds-size_1-of-12">
+						<div class="slds-m-left_x-small">
+							<lightning-icon icon-name="utility:close" alternative-text="Close!" title="Close"
+								size="small" onclick={onClearMessage}></lightning-icon>
+						</div>
+					</div>
+				</div>
+			</div>
+		</template>
+		<lightning-card title="">
+			<div class="slds-p-horizontal_x-large fontFamilyStyle">
+				<b class="slds-p-vertical_medium textAnythingHeader">Text Manager Configuration</b>
+				<p class="slds-p-top_large textAnythingSetupScreenText">The text manager is a summary view of all your
+					open conversations - it works off of the utility bar (so it stays open when you navigate from
+					page to page) and works just like your phone.</p>
+
+				<div class="slds-grid slds-wrap slds-p-top_medium ">
+					<lightning-input type="toggle" label="Show Message All Time" name="showAllTimeMessage"
+						value={showAllTimeMessage} checked={showAllTimeMessage} onchange={changeShowMessageAllTime}
+						class="TAToggle"></lightning-input>
+				</div>
+
+				<template if:false={showAllTimeMessage}>
+					<div class="slds-grid slds-wrap slds-p-top_medium ">
+						<div class="slds-col slds-size_7-of-12">
+							<span style="padding-bottom: 6px;margin-top:auto;" class="textAnythingSetupScreenText">Don't display read messages older than : &nbsp;&nbsp;</span>
+						</div>
+
+						<div class="slds-col slds-size_2-of-12">
+							<lightning-input type="number" maxlength="4" value={daysOld} onchange={changeOldDays}
+								name="Old Days" min="10" variant="label-hidden"></lightning-input>
+						</div>
+						<div class="slds-col slds-size_3-of-12">
+							<span class="textAnythingSetupScreenText">&nbsp;&nbsp;days old</span>
+						</div>
+					</div>
+				</template>
+
+				<div class="slds-grid slds-wrap slds-p-top_medium ">
+					<div
+						class="slds-col slds-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+						<br/>
+						<lightning-button label="Save" onclick={onSaveEve} variant="brand" class="TACustomButton">
+						</lightning-button>
+					</div>
+				</div>
+
+			</div>
+		</lightning-card>
+	</template>
+
+	<template if:false={loaded}>
+		<lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+	</template>
+</template>

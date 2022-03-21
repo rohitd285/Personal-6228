@@ -1,0 +1,30 @@
+<template>
+	<template if:true={isPageReady}>
+		<template if:true={isSetupCompleted}>
+			<c-text-anything-admin-panel></c-text-anything-admin-panel>
+		</template>
+
+		<template if:false={isSetupCompleted}>
+			<div style="margin:2%;">
+				<div class="slds-grid slds-wrap">
+					<div class="slds-size_1-of-4">
+					</div>
+					<div class="slds-size_2-of-4">
+						<div class="slds-page-header" role="banner">
+							<div class="slds-grid">
+								<div class="slds-col slds-has-flexi-truncate">
+									<h1 class="slds-text-heading--medium slds-truncate slds-text-align_center" title="Setup Wizard">Setup Wizard</h1>
+								</div>
+							</div>
+						</div>
+						<div>
+							<c-text-anything-setup-wizard oncwpnotification={handleCloseWizard} ></c-text-anything-setup-wizard>
+						</div>
+					</div>
+					<div class="slds-size_1-of-4">
+					</div>
+				</div>
+			</div>
+		</template>
+	</template>
+</template>

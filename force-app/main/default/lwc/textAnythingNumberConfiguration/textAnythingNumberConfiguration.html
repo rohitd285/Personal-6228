@@ -1,0 +1,201 @@
+<template>
+	<lightning-card title="">
+		<div class="slds-p-horizontal_x-large fontFamilyStyle">
+			<template if:true={strErrorMsg.length}>
+				<div class="error uiMessage" role="alert">
+					<div class="slds-grid slds-wrap">
+						<div class="slds-col slds-size_11-of-12 slds-align_absolute-center">
+							<lightning-icon icon-name="utility:warning" alternative-text="Warning!" title="Warning"
+								variant="error" size="small"></lightning-icon>
+							<div class="slds-m-left_x-small textAnythingErrorMessageStyle">
+								<lightning-formatted-rich-text value={strErrorMsg}></lightning-formatted-rich-text>
+							</div>
+						</div>
+						<div class="slds-col slds-size_1-of-12">
+							<div class="slds-m-left_x-small">
+								<lightning-icon icon-name="utility:close" alternative-text="Close!" title="Close"
+									size="small" onclick={onClearMessage}></lightning-icon>
+							</div>
+						</div>
+					</div>
+				</div>
+			</template>
+			<template if:true={strSuccess.length}>
+				<div class="confirm uiMessage" role="alert" style="font-family: Arial;font-size: 16px;">
+					<div class="slds-grid slds-wrap">
+						<div class="slds-col slds-size_11-of-12 slds-align_absolute-center">
+							<lightning-icon icon-name="utility:success" alternative-text="Success!" title="Success"
+								variant="success" size="small"></lightning-icon>
+							<div class="slds-m-left_x-small textAnythingSuccessMessageStyle">
+								<lightning-formatted-rich-text value={strSuccess}></lightning-formatted-rich-text>
+							</div>
+						</div>
+						<div class="slds-col slds-size_1-of-12">
+							<div class="slds-m-left_x-small">
+								<lightning-icon icon-name="utility:close" alternative-text="Close!" title="Close"
+									size="small" onclick={onClearMessage}></lightning-icon>
+							</div>
+						</div>
+					</div>
+				</div>
+			</template>
+			<b class="slds-p-vertical_medium textAnythingHeader">Sending Messages</b>
+			<p class="slds-p-top_large textAnythingSetupScreenText">When you send text messages our app needs to know
+				what phone number to use per
+				object. For example, the most common use case is the Mobile Phone field on the Contact object. You can
+				specify one field on every object you wish to text to.
+			</p>
+
+
+			<template if:false={isShowNext}>
+				<p class="slds-p-top_medium textAnythingSetupScreenText">You can change this and add other objects and
+					their defaults in the admin panel later.</p>
+			</template>
+
+			<div class="slds-grid slds-wrap slds-p-top_medium ">
+				<div
+					class="slds-col slds-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-p-top_medium slds-p-right_small">
+					<select class="slds-select" data-id="objOption" name={objectValue} onchange={handleObjectSelect}
+                        disabled={disable}>
+                        <template for:each={lstObjectDetailsWrapper} for:item="obj">
+                            <option key={obj.strObject3DigitCode} value={obj.strObjectAPIName}>{obj.strObjectName}
+                            </option>
+                        </template>
+                    </select>
+				</div>
+				<div
+					class="slds-col slds-size_0-of-12 slds-small-size_0-of-12 slds-medium-size_0-of-12 slds-large-size_0-of-12">
+				</div>
+				<div
+					class="slds-col slds-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-p-top_medium slds-p-right_small">
+
+					<select class="slds-select" data-id="objOption" name={fieldValue} onchange={handleFieldSelect}
+                        disabled={disable}>
+                        <template for:each={lstField} for:item="obj">
+                            <option key={obj.value} value={obj.value} >{obj.label}</option>
+                        </template>
+                    </select>
+				</div>
+				<div
+					class="slds-col slds-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-p-top_medium">
+					<lightning-button label="Save" title="Save" onclick={handleNCSave} variant="brand"
+						disabled={disable} value="" class="TACustomButton"></lightning-button>
+					<lightning-button label="Clear" title="Clear" onclick={handleNCClear} disabled={disable}
+						class="slds-p-left_small TACustomButton" variant="brand-outline"></lightning-button>
+				</div>
+			</div>
+
+			<!--Data Table Starts here -->
+
+			<template if:false={lstRecordsEmpty}>
+
+				<div class={cssClass}>
+					<table class="slds-table slds-table_cell-buffer slds-table_bordered slds-m-top--small ">
+						<thead>
+							<tr class="slds-line-height_reset">
+								<th class="" scope="col">
+									<div class="slds-truncate textAnythingTableHeader slds-p-right_small"
+										title="Object Name">Object
+										Name</div>
+								</th>
+								<th class="" scope="col">
+									<div class="slds-truncate textAnythingTableHeader slds-p-right_small"
+										title="Field Name">Field Name
+									</div>
+								</th>
+								<th class="" scope="col">
+									<div class="slds-truncate textAnythingTableHeader slds-p-right_x-large"
+										title="Action">Action</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<template for:each={lstRecords} for:item="savedItem">
+								<tr key={savedItem.ToNumberConfiguration.Id}>
+									<th scope="col">
+										<div class="textAnythingTableRowContent">
+											{savedItem.ToNumberConfiguration.Object_Name__c}
+										</div>
+									</th>
+									<th scope="col" style="width:33.33%;">
+										<div class="textAnythingTableRowContent">
+											<template if:false={savedItem.isShow}>
+												<span
+														key={savedItem.ToNumberConfiguration.Field_Name__c}>{savedItem.ToNumberConfiguration.Field_Name__c}</span>
+											</template>
+
+											<template if:true={savedItem.isShow}>
+												<select class="slds-select"  data-id="objOption" data-name="selectedVal"
+														onchange={handleFieldSelect}>
+														<!-- HERE Check for default value -->
+													<template if:true={hasDefaultResults}> 
+														<option value={hasDefaultResults.strAPIName}>{hasDefaultResults.strLabel}</option>
+													</template>
+														<template for:each={lstFieldCreatedMapping} for:item="obj">
+															<option key={obj.value} value={obj.value}>{obj.label}</option>
+														</template>
+													</select>
+											</template>
+										</div>
+									</th>
+									<th scope="col">
+										<div>
+											<template if:true={showMapping}>
+												<template if:false={savedItem.isShow}>
+													<lightning-button-icon icon-name="action:edit" variant="brand"
+														value={savedItem.ToNumberConfiguration.Id}
+														onclick={handleNCEdit} alternative-text="Edit" title="Edit">
+													</lightning-button-icon>
+
+													<lightning-button-icon icon-name="action:delete"
+														variant="destructive" value={savedItem.ToNumberConfiguration.Id}
+														onclick={handleNCDelete} alternative-text="Delete"
+														title="Delete" class="slds-m-left_x-small sldsButtonIcon">
+													</lightning-button-icon>
+												</template>
+
+												<template if:true={savedItem.isShow}>
+													<lightning-button-icon icon-name="action:approval" variant="brand"
+														value={savedItem.ToNumberConfiguration.Id}
+														onclick={handleNCSave} alternative-text="Save" title="Save">
+													</lightning-button-icon>
+
+													<lightning-button-icon icon-name="action:close" variant="base"
+														value={savedItem.ToNumberConfiguration.Id}
+														onclick={handleNCCancel} alternative-text="Cancel"
+														title="Cancel" class="slds-m-left_x-small sldsButtonIcon">
+													</lightning-button-icon>
+												</template>
+											</template>
+										</div>
+									</th>
+								</tr>
+							</template>
+						</tbody>
+					</table>
+				</div>
+			</template>
+
+			<div if:true={loaded} class="slds-p-top_medium">
+				<template if:false={isShowNext}>
+					<lightning-button label="Next" title="Next" onclick={handleNumberConfigurationNext}
+						class="slds-m-left_x-small TACustomButton" variant="brand"></lightning-button>
+					<br/><br/><br/><br/>
+                </template>
+			</div>
+		</div>
+	</lightning-card>
+
+
+	<template if:false={loaded}>
+		<div style="height:6rem">
+			<div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+				<span class="slds-assistive-text">Loading</span>
+				<div class="slds-spinner__dot-a"></div>
+				<div class="slds-spinner__dot-b"></div>
+			</div>
+		</div>
+		<div class="slds-backdrop slds-backdrop_open" style="background: transparent;"></div>
+	</template>
+
+</template>

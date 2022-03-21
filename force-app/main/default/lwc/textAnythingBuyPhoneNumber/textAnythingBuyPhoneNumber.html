@@ -1,0 +1,294 @@
+<template>
+	<lightning-card title="">
+		<div class="slds-p-horizontal_x-large" style="font-family: Arial; font-size: 14px;">
+			<template if:true={strErrorMsg.length}>
+				<div class="slds-grid slds-wrap">
+					<div class="slds-col slds-3-of-12">
+						&nbsp;
+					</div>
+					<div class="slds-col slds-size_6-of-12">
+						<div class="error uiMessage" role="alert">
+							<div class="slds-grid slds-wrap">
+								<div class="slds-col slds-size_11-of-12 slds-align_absolute-center">
+									<lightning-icon icon-name="utility:warning" alternative-text="Warning!"
+										title="Warning" variant="error" size="small"></lightning-icon>
+									<div class="slds-m-left_x-small textAnythingErrorMessageStyle">
+										<lightning-formatted-rich-text value={strErrorMsg}>
+										</lightning-formatted-rich-text>
+									</div>
+								</div>
+								<div class="slds-col slds-size_1-of-12">
+									<div class="slds-m-left_x-small">
+										<lightning-icon icon-name="utility:close" alternative-text="Close!"
+											title="Close" size="small" onclick={onClearMessage}></lightning-icon>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="slds-col slds-size_3-of-12">
+						&nbsp;
+					</div>
+				</div>
+			</template>
+			<template if:true={strSuccess.length}>
+				<div class="slds-grid slds-wrap">
+					<div class="slds-col slds-3-of-12">
+						&nbsp;
+					</div>
+					<div class="slds-col slds-size_6-of-12">
+						<div class="confirm uiMessage" role="alert">
+							<div class="slds-grid slds-wrap">
+								<div class="slds-col slds-size_11-of-12 slds-align_absolute-center">
+									<lightning-icon icon-name="utility:success" alternative-text="Success!"
+										title="Success" variant="success" size="small"></lightning-icon>
+									<div class="slds-m-left_x-small textAnythingSuccessMessageStyle">
+										<lightning-formatted-rich-text value={strSuccess}>
+										</lightning-formatted-rich-text>
+									</div>
+								</div>
+								<div class="slds-col slds-size_1-of-12">
+									<div class="slds-m-left_x-small">
+										<lightning-icon icon-name="utility:close" alternative-text="Close!"
+											title="Close" size="small" onclick={onClearMessage}></lightning-icon>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="slds-col slds-size_3-of-12">
+						&nbsp;
+					</div>
+				</div>
+			</template>
+
+			<template if:true={isSetUpCompleted}>
+			<div class="slds-grid slds-wrap slds-p-top_medium ">
+				<div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12 slds-p-around_small">
+					<div class="slds-grid slds-wrap">
+						<div class="slds-col slds-size_1-of-1">
+							<lightning-combobox variant="label-hidden" name="Select Country"
+								value={wrapMain.countrySelected} placeholder="Select Country"
+								options={wrapMain.lstCountry} onchange={handleCountry}></lightning-combobox>
+						</div>
+					</div>
+					<div class="slds-grid slds-wrap">
+						<div class="slds-col slds-size_1-of-1 slds-p-top_medium">
+							<lightning-input type="checkbox" label="Toll Free" name="TollFree"
+								value={wrapMain.isTollFree} checked={wrapMain.isTollFree}
+								onchange={handleTollFreeChange}></lightning-input>
+						</div>
+					</div>
+				</div>
+
+				<div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12 slds-p-around_small">
+					<lightning-combobox variant="label-hidden" name="Number or Locality" value={wrapMain.strSearchType}
+						placeholder="Number or Locality" options={NumLoc} onchange={handleNumLoc}></lightning-combobox>
+				</div>
+
+
+				<div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12 slds-p-around_small">
+					<div class="slds-grid slds-wrap">
+						<div class="slds-col slds-size_1-of-12 slds-p-right_medium">
+							<template if:true={isMatch}>
+								<lightning-helptext content="Search by Location, i.e., Chicago"></lightning-helptext>
+							</template>
+							<template if:false={isMatch}>
+								<lightning-helptext content="Search by part of the number"></lightning-helptext>
+							</template>
+						</div>
+						<div class="slds-col slds-size_11-of-12">
+							<template if:true={isMatch}>
+								<lightning-input type="text" value={textValue} onchange={handelKeySearch}
+									placeholder="Search by Location, i.e., Chicago" variant="label-hidden"
+									aria-label="Search by Location, i.e., Chicago"></lightning-input>
+							</template>
+							<template if:false={isMatch}>
+								<lightning-input type="text" value={textValue} onchange={handelKeySearch}
+									placeholder="Search by part of the number" variant="label-hidden"
+									aria-label="Search by part of the number"></lightning-input>
+							</template>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12 slds-p-around_small">
+					<template if:false={isMatch}>
+						<div class="slds-grid slds-wrap">
+							<div class="slds-col slds-size_1-of-12 slds-large-size_3-of-12 slds-p-right_medium">
+								<span style="font-size: 14px; font-family: Arial; color: #2C2C2C; vertical-align: -webkit-baseline-middle;">Match</span>
+							</div>
+							<div class="slds-col slds-size_11-of-12 slds-large-size_9-of-12">
+								<lightning-combobox disabled={isMatch} variant="label-hidden" name="Match Number"
+									value={wrapMain.matchString} placeholder="Match Number" options={match}
+									onchange={handleMatch}></lightning-combobox>
+							</div>
+						</div>
+					</template>
+				</div>
+
+				<div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12 slds-p-around_small">
+					<div class="slds-grid slds-wrap slds-align_absolute-center">
+						<lightning-button variant="brand" label="Search" onclick={handleSearch} class="TACustomButton">
+						</lightning-button>
+						<lightning-button label="Cancel" onclick={handleClickCancel}
+							class="slds-m-left_x-small TACustomButton" variant="brand-outline"></lightning-button>
+					</div>
+
+					<div class="slds-grid slds-wrap">
+						<div class="slds-col slds-size_1-of-1 slds-p-top_medium slds-align_absolute-center">
+							<div class="slds-truncate" title={wrapMain.strSendReceiveFeeURL}>
+								<a href={wrapMain.strSendReceiveFeeURL} target="_blank" class="anchorStyle">See Pricing
+									Guide</a>&nbsp;
+								<a href={wrapMain.strSendReceiveFeeURL} target="_blank" class="anchorStyle">
+									<lightning-icon icon-name="utility:info" alternative-text="Info!"
+										title="See Pricing Guide" size="x-small"></lightning-icon>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div if:true={isShowTable} class="slds-grid slds-wrap slds-p-top_medium " style="height:450px;width:100%;">
+				<div class="slds-scrollable_y" style="height:100%;width:100%;">
+					<table
+						class="slds-table slds-table_striped slds-table--cell-buffer slds-max-medium-table--stacked-horizontal">
+						<thead>
+							<tr class="slds-line-height_reset textAnythingTableHeaderRow">
+								<th class="" scope="col">
+									<div class="slds-truncate textAnythingTableHeader" title="Number">Number</div>
+								</th>
+								<th class="" scope="col">
+									<div class="slds-truncate textAnythingTableHeader" title="Location">Location</div>
+								</th>
+								<th class="" scope="col">
+									<div class="slds-truncate textAnythingTableHeader" title="Type">Type</div>
+								</th>
+								<th class="" scope="col">
+									<div class="slds-truncate" title=""></div>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<template for:each={wrapMain.lstSearchNumberList} for:item="NumSearch">
+								<tr class="slds-hint-parent" key={NumSearch.Number}>
+									<td data-label="Number">
+										<div class="slds-truncate textAnythingTableRowContent"
+											title={NumSearch.PhoneNumber}>{NumSearch.PhoneNumber}</div>
+									</td>
+									<td data-label="Location">
+										<div class="slds-truncate textAnythingTableRowContent"
+											title={NumSearch.Location}>{NumSearch.Location}</div>
+									</td>
+									<td data-label="Type">
+										<div class="slds-truncate textAnythingTableRowContent" title={NumSearch.Type}>
+											{NumSearch.Type}</div>
+									</td>
+									<td data-label="">
+										<div class="slds-truncate" title="">
+											<lightning-button label="Buy" variant="brand" value={NumSearch.PhoneNumber}
+												onclick={purchseThisNumber} class="TACustomButton"></lightning-button>
+										</div>
+									</td>
+								</tr>
+							</template>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			</template>
+
+		</div>
+
+		<template if:true={isBuy}>
+			<div class="slds-modal slds-fade-in-open slds-p-horizontal_x-large fontFamilyStyle">
+				<div class="slds-grid slds-wrap slds-p-top_medium slds-modal__container">
+					
+					<lightning-layout multiple-rows class="slds-modal__content">
+						
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+							large-device-size="12" padding="around-small">
+							<p class="textAnythingTableHeader">Review Phone Number</p>
+						</lightning-layout-item>
+						<template if:true={strModalErrorMsg.length}>
+							<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+							large-device-size="12" padding="around-small">
+					<div class="slds-grid slds-wrap slds-align_absolute-center">
+
+						<div class="slds-col slds-size_12-of-12 ">
+							<div class="error uiMessage" role="alert">
+								<div class="slds-grid slds-wrap slds-align_absolute-center">
+									<div class="slds-col slds-size_11-of-12 slds-align_absolute-center">
+										<lightning-icon icon-name="utility:warning" alternative-text="Warning!"
+											title="Warning" variant="error" size="small"></lightning-icon>
+										<div class="slds-align_absolute-center textAnythingErrorMessageStyle">
+											<lightning-formatted-rich-text value={strModalErrorMsg}>
+											</lightning-formatted-rich-text>
+										</div>
+									</div>
+									<div class="slds-col slds-size_1-of-12">
+										<div class="slds-m-left_x-small">
+											<lightning-icon icon-name="utility:close" alternative-text="Close!"
+												title="Close" size="small" onclick={onClearMessage}>
+											</lightning-icon>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+							</lightning-layout-item>
+				</template>
+						<lightning-layout-item size="12" small-device-size="6" medium-device-size="6"
+							large-device-size="6" padding="around-small">
+							<div style="text-align: left;">
+								<p class="textAnythingHeader">{friendlyName}</p>
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" small-device-size="6" medium-device-size="6"
+							large-device-size="6" padding="around-small">
+							<div style="text-align: right;" class="textAnythingHeader">
+								<b>${fee}</b> monthly fee
+							</div>
+						</lightning-layout-item>
+
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+							large-device-size="12" padding="around-small">
+							<p class="textAnythingTableRowContent">You'll be charged <b>${fee}</b> when you purchase
+								this number, then ${fee}/month plus any usage fees you incur from sending and receiving
+								messages.</p>
+						</lightning-layout-item>
+
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+							large-device-size="12" padding="around-small">
+							<p class="textAnythingTableRowContent">This number supports {facility}</p>
+						</lightning-layout-item>
+
+						<lightning-layout-item size="12" small-device-size="12" medium-device-size="12"
+							large-device-size="12" padding="around-small" style="text-align: end;">
+							<lightning-button label="Cancel" onclick={handleCancel}
+								class="slds-p-around_small TACustomButton" variant="brand-outline"></lightning-button>
+							<lightning-button label="Buy" onclick={handleBuy} variant="brand"
+								class="slds-p-around_small TACustomButton"></lightning-button>
+						</lightning-layout-item>
+					</lightning-layout>
+				</div>
+			</div>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+		</template>
+		<template if:false={loaded}>
+			<div style="height:6rem">
+				<div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+					<span class="slds-assistive-text">Loading</span>
+					<div class="slds-spinner__dot-a"></div>
+					<div class="slds-spinner__dot-b"></div>
+				</div>
+			</div>
+			<div class="slds-backdrop slds-backdrop_open" style="background: transparent;"></div>
+		</template>
+	</lightning-card>
+</template>

@@ -1,0 +1,130 @@
+<template>
+    <section role="log" class="slds-chat" style="background: #FFFFFF;border: 1px solid #F2F2F2;">
+        <div class="chat-header chatHeaderStyle">
+            <lightning-layout>
+				<template if:true={displayBackBtn}>
+					<lightning-layout-item size="1" class="slds-text-align--left chatHeaderMarginStyle">
+						<div style="text-align: center;">
+							<lightning-button-icon onclick={backToTextManager} size="medium" icon-name="utility:chevronleft" variant="bare"  alternative-text="Back" class="slds-text-color_weak backButton" title="Back"></lightning-button-icon>
+						</div>
+					</lightning-layout-item>
+					<lightning-layout-item size="8" class="recordNameStyle chatHeaderMarginStyle">
+						{wrapMain.sendFrom}
+					</lightning-layout-item>
+					<lightning-layout-item size="3" class="recordNameStyle chatHeaderInitialsMarginStyle slds-align_absolute-center">
+						<span aria-hidden="true" class="slds-avatar slds-avatar_circle slds-chat-avatar">
+							<abbr class="slds-avatar__initials slds-avatar__initials_inverse initialsTextStyle" title={nameIntial} style="background-color:#EDF3FA;">{nameIntial}</abbr>
+						</span>
+						<span aria-hidden="true" class="slds-avatar slds-avatar_circle slds-chat-avatar">
+							<abbr class="slds-avatar__initials slds-avatar__initials_inverse initialsTextStyle" title={fromNumber} style="background-color:#4E80C5;color:#FFFFFF;">{currentUserIntial}</abbr>
+						</span>
+					</lightning-layout-item>
+				</template>
+				<template if:false={displayBackBtn}>
+					<!--<lightning-layout-item padding="around-small" size="1" class="slds-text-align--left">
+						<div style="text-align: left;">
+							&nbsp;
+						</div>
+					</lightning-layout-item>-->
+					<lightning-layout-item size="9" class="recordNameStyle chatHeaderMarginStyle">
+						{wrapMain.sendFrom}
+					</lightning-layout-item>
+					<lightning-layout-item size="2" class="recordNameStyle">
+						<span aria-hidden="true" class="slds-avatar slds-avatar_circle slds-chat-avatar">
+							<abbr class="slds-avatar__initials slds-avatar__initials_inverse initialsTextStyle" title={nameIntial} style="background-color:#EDF3FA;">{nameIntial}</abbr>
+						</span>
+						<span aria-hidden="true" class="slds-avatar slds-avatar_circle slds-chat-avatar">
+							<abbr class="slds-avatar__initials slds-avatar__initials_inverse initialsTextStyle" title={fromNumber} style="background-color:#4E80C5;color:#FFFFFF;">{currentUserIntial}</abbr>
+						</span>
+					</lightning-layout-item>
+					<lightning-layout-item size="1" class="recordNameStyle chatHeaderInitialsMarginStyle slds-align_absolute-center">
+						&nbsp;
+					</lightning-layout-item>
+				</template>
+			</lightning-layout>
+        </div>
+		<template if:true={wrapMain.strMsg}>
+			<div style="margin:14px;">
+				<div class="error uiMessage" role="alert">
+					<div class="slds-grid slds-wrap">
+						<div class="slds-col slds-size_1-of-12 slds-align_absolute-center" >
+							<lightning-icon icon-name="utility:warning" alternative-text="Warning!" title="Warning" variant="error" size="small"></lightning-icon>
+						</div>
+						<div class="slds-col slds-size_10-of-12" >
+							<div class="slds-m-around_x-small"><lightning-formatted-rich-text value={wrapMain.strMsg}></lightning-formatted-rich-text></div>
+						</div>
+						<div class="slds-col slds-size_1-of-12 slds-align_absolute-center" >
+							<lightning-icon icon-name="utility:close" alternative-text="Close!" title="Close" size="small" onclick={onClearMessage}></lightning-icon>
+						</div>
+					</div>
+				</div>
+			</div>
+		</template>
+		<!-- <div class="myScrollClass" id="chatDivId"> -->
+        <div class="myScrollClass" id="chatDivId">
+			<section role="log" class="slds-chat">
+				<ul style="margin-right:14px;">
+					<template for:each={lstMessage} for:item="msg">
+						<li class={msg.styleClass} key={msg.objDetails.Id}>
+							<div class="slds-chat-message">
+								<span if:true={msg.showAvatar} aria-hidden="true" class="slds-avatar slds-avatar_circle slds-chat-avatar slds-m-top_medium">
+									<abbr class="slds-avatar__initials slds-avatar__initials_inverse initialsTextStyle" title={msg.avatr} style="background-color:#EDF3FA;">{msg.avatr}</abbr>
+								</span>
+								
+								<div class="slds-chat-message__body">
+									<div if:true={msg.showAvatar} class="slds-chat-message__meta slds-text-align--left" aria-label="">
+										<span class="smallDetailsStyle" style="color: #727272;">{msg.senderName}</span>
+									</div>
+									<div if:false={msg.showAvatar} class="slds-chat-message__meta slds-text-align--right" aria-label="">
+										<template if:true={msg.isPending}>
+											<span class="smallDetailsStyle" style="color: #727272;">{msg.senderName}</span>
+										</template>
+										<template if:true={msg.isSent}>
+											<span class="smallDetailsStyle" style="color: #4E80C5;">{msg.senderName}</span>
+										</template>
+										<template if:true={msg.isFailed}>
+											<span class="smallDetailsStyle" style="color: #A51111;">{msg.senderName}</span>
+										</template>
+									</div>
+									<div class={msg.styleDiv}>
+										<span class={msg.styleText}>{msg.objDetails.Message__c}</span>
+									</div>
+									<div if:true={msg.showSmallDetails} class="slds-chat-message__meta slds-text-align--right" aria-label="">
+										<template if:false={msg.showAvatar}>
+											<template if:true={msg.isPending}>
+												<span class="smallDetailsStyle" style="color: #727272;">{msg.objDetails.Status__c}</span>
+											</template>
+											<template if:true={msg.isSent}>
+												<span class="smallDetailsStyle" style="color: #4E80C5;">{msg.objDetails.Status__c}</span>
+											</template>
+											<template if:true={msg.isFailed}>
+												<span class="smallDetailsStyle" style="color: #A51111;">{msg.objDetails.Status__c}</span>
+											</template>
+										</template>
+									</div>
+								</div>
+								<div class="chat_btn">
+								<span if:false={msg.showAvatar} aria-hidden="true" class="slds-avatar slds-avatar_circle slds-chat-avatar slds-m-top_medium rightAvtar">
+									<abbr class="slds-avatar__initials slds-avatar__initials_inverse initialsTextStyle" title={msg.strMsgOwnerInitials} style="background-color:#4E80C5; color:#FFFFFF;">{msg.strMsgOwnerInitials}</abbr>
+								</span>
+								</div>
+							</div>
+						</li>
+					</template>
+				</ul>
+			</section>
+        </div>
+		<template if:false={loaded}>
+			<lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+		</template>
+        <div class="slds-grid slds-wrap slds-p-around_xx-small" style="background: #FFFFFF; border-top:1px solid #F2F2F2; font-family: Arial; font-style: normal; font-weight: normal;">
+			<div class="slds-col slds-size_11-of-12 slds-small-size_11-of-12 slds-medium-size_11-of-12 slds-large-size_11-of-12">
+				<lightning-textarea variant="label-hidden" placeholder="Type a message #inspire" value={txtMsg} onchange={trackCharacters} disabled={isBtn} class="slds-p-around_xx-small mytextarea"></lightning-textarea>
+			</div>
+
+			<div class="slds-col slds-size_1-of-12 slds-small-size_1-of-12 slds-medium-size_1-of-12 slds-large-size_1-of-12 slds-p-top_medium">
+				<lightning-button-icon icon-name="utility:send" variant="bare" size="large" onclick={handleSend} alternative-text="Send" title="Send" disabled={isButtonDisabled}></lightning-button-icon>
+			</div>
+        </div>
+	</section>
+</template>

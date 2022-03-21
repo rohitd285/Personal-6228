@@ -1,0 +1,69 @@
+<template>
+	<lightning-card title="">
+		<div class="slds-p-horizontal_x-large fontFamilyStyle">
+			<template if:true={strErrorMsg.length}>
+				<div class="error uiMessage" role="alert">
+					<div class="slds-grid slds-wrap">
+						<div class="slds-col slds-size_11-of-12 slds-align_absolute-center">
+							<lightning-icon icon-name="utility:warning" alternative-text="Warning!" title="Warning"
+								variant="error" size="small"></lightning-icon>
+							<div class="slds-m-left_x-small textAnythingErrorMessageStyle">
+								<lightning-formatted-rich-text value={strErrorMsg}></lightning-formatted-rich-text>
+							</div>
+						</div>
+						<div class="slds-col slds-size_1-of-12">
+							<div class="slds-m-left_x-small">
+								<lightning-icon icon-name="utility:close" alternative-text="Close!" title="Close"
+									size="small" onclick={onClearMessage}></lightning-icon>
+							</div>
+						</div>
+					</div>
+				</div>
+			</template>
+			<template if:true={strSuccess.length}>
+				<div class="confirm uiMessage" role="alert" style="font-family: Arial;font-size: 16px;">
+					<div class="slds-grid slds-wrap">
+						<div class="slds-col slds-size_11-of-12 slds-align_absolute-center">
+							<lightning-icon icon-name="utility:success" alternative-text="Success!" title="Success"
+								variant="success" size="small"></lightning-icon>
+							<div class="slds-m-left_x-small textAnythingSuccessMessageStyle">
+								<lightning-formatted-rich-text value={strSuccess}></lightning-formatted-rich-text>
+							</div>
+						</div>
+						<div class="slds-col slds-size_1-of-12">
+							<div class="slds-m-left_x-small">
+								<lightning-icon icon-name="utility:close" alternative-text="Close!" title="Close"
+									size="small" onclick={onClearMessage}></lightning-icon>
+							</div>
+						</div>
+					</div>
+				</div>
+			</template>
+
+			<b class="slds-p-vertical_medium textAnythingHeader">Send Your First Text</b>
+			<p class="slds-p-top_medium textAnythingSetupScreenText">Enter a mobile number to send your first text
+				message. </p>
+			<div class="slds-grid slds-wrap slds-p-top_x-small">
+				<div class="slds-size_1-of-2">
+					<lightning-input type="text" label="Mobile " value={mobile} name="mobile" onchange={onChangeHandler}
+						required></lightning-input>
+				</div>
+			</div>
+			<div class="slds-grid slds-wrap slds-p-top_x-small">
+				<div class="slds-size_1-of-2">
+					<lightning-textarea name="testMessage" label="Message Body" value={strMessageBody}
+						placeholder="type here..." onchange={onMessageChangeHandler} max-length="100" required>
+					</lightning-textarea>
+				</div>
+			</div>
+			<div class="slds-grid slds-wrap slds-p-top_x-small">
+				<div class="slds-size_1-of-2">
+					<lightning-button label="Send" title="Send" onclick={handleTest} variant="brand"
+						class="TACustomButton"></lightning-button>
+					<lightning-button label="Close Wizard" title="Close Wizard" onclick={handleCloseWizard}
+						class="slds-m-left_x-small TACustomButton" variant="brand-outline"></lightning-button>
+				</div>
+			</div>
+		</div>
+	</lightning-card>
+</template>

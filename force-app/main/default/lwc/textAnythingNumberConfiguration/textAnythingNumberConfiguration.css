@@ -1,0 +1,10 @@
+.text .slds-table_cell-buffer tr>th:first-child, .slds-table_cell-buffer tr>td:first-child, .slds-table--cell-buffer tr>th:first-child, .slds-table--cell-buffer tr>td:first-child {
+    padding-left: 7px;
+    width: 33.33%;
+}
+.cssForWizard{
+    max-height:200px;
+}
+.cssForMain{
+    max-height:350px;
+}

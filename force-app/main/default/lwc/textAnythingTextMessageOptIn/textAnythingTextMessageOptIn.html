@@ -1,0 +1,62 @@
+<template>
+    <lightning-card title="">
+		<div class="slds-p-horizontal_x-large fontFamilyStyle">
+			<template if:true={strErrorMsg}>
+				<div class="error uiMessage" role="alert">
+					<div class="slds-grid slds-wrap">
+						<div class="slds-col slds-size_11-of-12 slds-align_absolute-center" >
+							<lightning-icon icon-name="utility:warning" alternative-text="Warning!" title="Warning" variant="error" size="small"></lightning-icon>
+							<div class="slds-m-left_x-small textAnythingErrorMessageStyle" ><lightning-formatted-rich-text value={strErrorMsg}></lightning-formatted-rich-text></div>
+						</div>
+						<div class="slds-col slds-size_1-of-12" >
+							<div class="slds-m-left_x-small">
+							<lightning-icon icon-name="utility:close" alternative-text="Close!" title="Close" size="small" onclick={onClearMessage}></lightning-icon>
+							</div>
+						</div>
+					</div>
+				</div>
+			</template>
+			<template if:true={strSuccess}>
+				<div class="confirm uiMessage" role="alert" style="font-family: Arial;font-size: 16px;">
+					<div class="slds-grid slds-wrap">
+						<div class="slds-col slds-size_11-of-12 slds-align_absolute-center" >
+							<lightning-icon icon-name="utility:success" alternative-text="Success!" title="Success" variant="success" size="small"></lightning-icon>
+							<div class="slds-m-left_x-small textAnythingSuccessMessageStyle" ><lightning-formatted-rich-text value={strSuccess}></lightning-formatted-rich-text></div>
+						</div>
+						<div class="slds-col slds-size_1-of-12" >
+							<div class="slds-m-left_x-small">
+							<lightning-icon icon-name="utility:close" alternative-text="Close!" title="Close" size="small" onclick={onClearMessage}></lightning-icon>
+							</div>
+						</div>
+					</div>
+				</div>
+			</template>
+			<b class="slds-p-vertical_medium textAnythingHeader slds-m-top_small">Text Message Opt-In</b>
+			<p class="slds-p-top_large textAnythingSetupScreenText">Enable this setting if you need your customers to opt-in to receive text messages from your company.</p>
+			<div class="slds-p-vertical_medium">
+				<lightning-input type="toggle" label="Enable Opt-In" name="opt In toggel" checked={isChecked}  onchange={handleOptInToggle} class="TAToggle"></lightning-input>
+			</div>
+        </div>
+		<template if:true={isChecked}>
+			<div class="slds-p-horizontal_x-large divFontFamily">     
+				<b class="slds-p-vertical_medium textAnythingHeader">Opt-In Keywords</b>
+				<p class="slds-p-top_large textAnythingSetupScreenText">Enter the keywords you want to use for user-opted-in communication seperated by a comma. I.e., Subscribe, validate, start.</p>
+				
+				<div class="slds-p-around_small">
+					<template for:each={lstOptInKeywords} for:item="items">
+						<lightning-pill label={items} onremove={handleRemove} key={items}></lightning-pill>
+					</template>
+				</div>
+
+				<div class="slds-p-vertical_medium">
+					<lightning-textarea name="opt In keywords" label=" " value={optInKeywords} onchange={onChangeHandler} max-length={intOptInKeywordLength}></lightning-textarea>
+				</div>
+				<template if:true={isOptInKeywordsAdded}>
+					<div class="slds-p-top_medium">
+						<lightning-button label="Save" title="Save" onclick={handleSaveOptInKeyword}  class="slds-m-left_x-small TACustomButton" variant="brand"></lightning-button>
+					</div>
+				</template>
+			</div>
+		</template>
+    </lightning-card>
+</template>

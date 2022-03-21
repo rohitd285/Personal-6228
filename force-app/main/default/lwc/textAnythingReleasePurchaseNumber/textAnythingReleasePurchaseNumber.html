@@ -1,0 +1,46 @@
+<template>
+    <header class="slds-modal__header slds-border_left slds-border_right slds-border_top textAnythingHeader">Release Number</header>
+    <div class="slds-modal__content slds-p-around_medium slds-border_left slds-border_right fontFamilyStyle" id="modal-content-id-1">
+		<lightning-card title="">	
+			<div class="slds-p-horizontal_x-large">
+				<template if:true={strErrorMsg}>
+					<div class="error uiMessage" role="alert">
+						<div class="slds-grid slds-wrap">
+							<div class="slds-col slds-size_11-of-12 slds-align_absolute-center" >
+								<lightning-icon icon-name="utility:warning" alternative-text="Warning!" title="Warning" variant="error" size="small"></lightning-icon>
+								<div class="slds-m-left_x-small textAnythingErrorMessageStyle" ><lightning-formatted-rich-text value={strErrorMsg}></lightning-formatted-rich-text></div>
+							</div>
+							<div class="slds-col slds-size_1-of-12" >
+								<div class="slds-m-left_x-small">
+								<lightning-icon icon-name="utility:close" alternative-text="Close!" title="Close" size="small" onclick={onClearMessage}></lightning-icon>
+								</div>
+							</div>
+						</div>
+					</div>
+				</template>
+				<template if:true={strSuccess}>
+					<div class="confirm uiMessage" role="alert" style="font-family: Arial;font-size: 16px;">
+						<div class="slds-grid slds-wrap">
+							<div class="slds-col slds-size_11-of-12 slds-align_absolute-center" >
+								<lightning-icon icon-name="utility:success" alternative-text="Success!" title="Success" variant="success" size="small"></lightning-icon>
+								<div class="slds-m-left_x-small textAnythingSuccessMessageStyle" ><lightning-formatted-rich-text value={strSuccess}></lightning-formatted-rich-text></div>
+							</div>
+							<div class="slds-col slds-size_1-of-12" >
+								<div class="slds-m-left_x-small">
+								<lightning-icon icon-name="utility:close" alternative-text="Close!" title="Close" size="small" onclick={onClearMessage}></lightning-icon>
+								</div>
+							</div>
+						</div>
+					</div>
+				</template>
+				<b class="slds-p-vertical_medium textAnythingSetupScreenText slds-m-top_small">Would you like to release {number}.</b>
+				<p class="slds-p-top_large textAnythingSetupScreenText">This will permanently surrender this number and can not be undone. Billing for the number stops for the number the day after it released. </p>
+				<br/>
+			</div>
+		</lightning-card>  
+    </div>
+    <footer class="slds-modal__footer slds-border_left slds-border_right fontFamilyStyle">
+        <lightning-button label="Release" title="Release" onclick={handleRelease} variant="destructive" class="slds-m-left_x-small"></lightning-button>
+        <lightning-button label="Cancel" title="Cancel" onclick={closeLwcModal} class="slds-m-left_x-small TACustomButton" variant="brand-outline"></lightning-button>
+    </footer>
+</template>
