@@ -15,4 +15,5 @@
     </aura:html>
     
     <c:textAnythingBuyPhoneNumber onclose="{!c.closeLwcModal}" />'
+    
 </aura:component>
